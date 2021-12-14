@@ -1,36 +1,58 @@
 import React, {useState} from 'react';
-
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 const Login = () => {
-  const [state, setState] = useState({
-      username: '',
-      password: ''
-  });
+  const initialState = {
+    username: '',
+    password: ''
+  }
+
+  const [state, setState] = useState(initialState);
 
   const handleChange = (e)=> {
-    const inputName = e.target.name;
-    const inputValue = e.target.value
     setState({
-        ...this.state,
-    inputName: inputValue
+        ...state,
+    [e.target.name]: e.target.value
     })
   }
-  return(
-    <div>
-        <h2>LOGIN</h2>
-        <form>
-            <label>
-                USERNAME
-                <input type='text' onChange={this.handleChange} name='username' />
-            </label>
+  
+  const handleSubmit = (e)=> {
+    e.preventDefault();
+    const userCredentials = {
+            username: state.username,
+            password: state.password
+    }
 
-            <label>
-                PASSWORD
-                <input type='text' onChange={this.handleChange} name='password' />
-            </label>
+    axios.post('http://localhost:9000/api/login', userCredentials)
+      .then( resp => {
+          const token = resp.data.token;
+          localStorage.setItem('token', token);
+      })
+      .catch( err => console.error(err))
+  }
 
-            <button>SUBMIT</button>
-        </form>
-    </div>)
+  if (localStorage.token) {
+    return (<Redirect to='/api/friends/' />)  
+  } else {
+    return(
+      <div>
+          
+          <h2>LOGIN</h2>
+          <form  onSubmit={handleSubmit} >
+              <label>
+                  USERNAME
+                  <input type='text' value={state.username} onChange={handleChange} name='username' />
+              </label>
+  
+              <label>
+                  PASSWORD
+                  <input type='text' value={state.password} onChange={handleChange} name='password' />
+              </label>
+  
+              <input type="submit" value="SUBMIT" />
+          </form>
+      </div>
+    )
+  }
 }
-
 export default Login;
