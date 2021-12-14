@@ -34,10 +34,10 @@ Each friend object has the format:
 
 ## Instructions
 ### Task 1: Project Set Up
-* [ ] Create a forked copy of this project.
-* [ ] Clone your OWN version of the repository in your terminal
-* [ ] cd into the project base directory `cd web-module-project-client-auth`
-* [ ] Download project dependencies by running `npm install`
+* [X] Create a forked copy of this project.
+* [X] Clone your OWN version of the repository in your terminal
+* [X] cd into the project base directory `cd web-module-project-client-auth`
+* [X] Download project dependencies by running `npm install`
 * [ ] cd into the `server` folder.
 * [ ] Start up the app using `npm start` to start the server.
 * [ ] cd into the `friends` folder.
