@@ -11,8 +11,9 @@ const Login = () => {
 
   const handleChange = (e)=> {
     setState({
-        ...state,
-    [e.target.name]: e.target.value
+      ...state,
+      [e.target.name]: e.target.value,
+      isNotLoggedIn: !localStorage.getItem('token') 
     })
   }
   
@@ -30,29 +31,31 @@ const Login = () => {
       })
       .catch( err => console.error(err))
   }
-
-  if (localStorage.token) {
-    return (<Redirect to='/api/friends/' />)  
-  } else {
-    return(
-      <div>
-          
-          <h2>LOGIN</h2>
-          <form  onSubmit={handleSubmit} >
-              <label>
-                  USERNAME
-                  <input type='text' value={state.username} onChange={handleChange} name='username' />
-              </label>
-  
-              <label>
-                  PASSWORD
-                  <input type='text' value={state.password} onChange={handleChange} name='password' />
-              </label>
-  
-              <input type="submit" value="SUBMIT" />
-          </form>
-      </div>
-    )
-  }
+  return( 
+    <div>
+    { (!state.isNotLoggedIn) && <Redirect to='/api/friends' />}
+    { 
+      state.isNotLoggedIn &&
+          <div>
+            
+            <h2>LOGIN</h2>
+            <form  onSubmit={handleSubmit} >
+                <label>
+                    USERNAME
+                    <input type='text' value={state.username} onChange={handleChange} name='username' />
+                </label>
+    
+                <label>
+                    PASSWORD
+                    <input type='text' value={state.password} onChange={handleChange} name='password' />
+                </label>
+    
+                <input type="submit" value="SUBMIT" />
+            </form>
+        </div>
+    }
+    </div>
+  )
 }
+
 export default Login;

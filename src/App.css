@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
 }
 
 .App-logo {
@@ -28,6 +30,23 @@
   color: #61dafb;
 }
 
+.uppercase {
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.centeredColumn {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.wd400 {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,3 +55,5 @@
     transform: rotate(360deg);
   }
 }
+
+
