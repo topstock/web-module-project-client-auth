@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+
 const Login = () => {
   const initialState = {
     username: '',
@@ -8,16 +9,16 @@ const Login = () => {
   }
 
   const [state, setState] = useState(initialState);
-
+  const {push} = useHistory();
   const handleChange = (e)=> {
     setState({
       ...state,
       [e.target.name]: e.target.value,
-      isNotLoggedIn: !localStorage.getItem('token') 
     })
   }
   
   const handleSubmit = (e)=> {
+
     e.preventDefault();
     const userCredentials = {
             username: state.username,
@@ -28,14 +29,15 @@ const Login = () => {
       .then( resp => {
           const token = resp.data.token;
           localStorage.setItem('token', token);
+          push('/friends');
       })
       .catch( err => console.error(err))
   }
   return( 
     <div>
-    { (!state.isNotLoggedIn) && <Redirect to='/api/friends' />}
+    { localStorage.getItem('token') && <Redirect to='/friends' />}
     { 
-      state.isNotLoggedIn &&
+      (!localStorage.getItem('token')) &&
           <div>
             
             <h2>LOGIN</h2>

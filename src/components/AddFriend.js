@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 const AddFriend = () => {
   const initialState = {
     name: '',
@@ -9,6 +9,7 @@ const AddFriend = () => {
 
   const [state, setState] = useState(initialState);
 
+  const { push } = useHistory();
 
   const handleChange = (e)=> {
     setState({
@@ -25,25 +26,22 @@ const AddFriend = () => {
             name: state.name,
             email: state.email,
             id: Date.now()
-
     }
-
-    console.log('newFriend for addFriend', newFriend);
 
     const headers = {
       headers: {
         authorization: localStorage.getItem('token')
       }
-      
     }
 
     axios.post('http://localhost:9000/api/friends', newFriend, headers)
       .then( resp => {
-          console.log(resp)
+          push('/friends');
       })
       .catch( err => console.error(err))
   }
 
+  if ( localStorage.getItem('token')) {
   return( 
     <div>
        <div>
@@ -72,8 +70,14 @@ const AddFriend = () => {
         </form>
       </div>
     
+
+    { (!localStorage.getItem('token')) && <Redirect to='/' />}
     </div>
   )
+  } else {
+    return(
+      <Redirect to='/' />
+    )
+  }
 }
-
 export default AddFriend;
