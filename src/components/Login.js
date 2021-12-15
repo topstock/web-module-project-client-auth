@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     const userCredentials = {
             username: state.username,
-            password: state.password
+            password: state.password,
     }
 
     axios.post('http://localhost:9000/api/login', userCredentials)

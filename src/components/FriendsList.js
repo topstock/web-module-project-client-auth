@@ -3,12 +3,13 @@ import axios from 'axios';
 
 const FriendsList = ()=> {
     const [state, setState] = useState([]);
+    const headers = {
+        headers: {
+            authorization: localStorage.getItem('token'),
+        }
+    };
     useEffect(()=> {
-        axios.get('http://localhost:9000/api/friends', {
-            headers: {
-                authorization: localStorage.getItem('token'),
-            }
-        })
+        axios.get('http://localhost:9000/api/friends', headers)
         .then(res => setState(res.data))
         .catch(err => console.error({err}))
     },[])
